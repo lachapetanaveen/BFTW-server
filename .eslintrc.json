@@ -1,0 +1,20 @@
+{
+  "env": {
+    "es2020": true,
+    "node": true
+  },
+  "extends": ["standard"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 11,
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "camelcase": "off",
+    "semi": [2, "always"],
+    "no-async-promise-executor": 0,
+    "prefer-promise-reject-errors": 0
+  },
+  "ignorePatterns": ["**/*.js", "**/*.test.ts"]
+}
