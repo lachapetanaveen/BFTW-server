@@ -13,11 +13,11 @@ import { IUser } from '../interfaces/user.interface';
 // Register User details to db as a new Account
 const signup = async (req: Request, res: Response) => {
     try {
-        const { first_name, last_name, email, password_hash, mobile_no, user_type } = req.body;
+        const { full_name, email, password_hash, mobile_no, user_type } = req.body;
         Logger.info(req.body);
-        if (!email && !first_name && !mobile_no && !user_type) {
+        if (!email && !full_name && !mobile_no && !user_type) {
             return bad_request(res, { msg: 'All field required' });
-        } else if (!first_name) return bad_request(res, { msg: 'First name is required' });
+        } else if (!full_name) return bad_request(res, { msg: 'Name is required' });
         else if (!email) return bad_request(res, { msg: 'Email is required' });
         else if (!mobile_no) return bad_request(res, { msg: 'Mobile Number is required' });
         else if (!user_type) return bad_request(res, { msg: 'User type is required' });

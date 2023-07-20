@@ -16,8 +16,8 @@ const MAIL_PASSWORD = process.env.MAIL_PASSWORD || '';
 const MAIL_SERVICE = process.env.MAIL_SERVICE || '';
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || '';
 
-// const MONGO_URL = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_URI}/${MONGO_DB}?w=majority&authSource=admin`;
-const MONGO_URL = process.env.MONGO_URI_TEST 
+const MONGO_URL = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_URI}/${MONGO_DB}?w=majority&authSource=admin`;
+// const MONGO_URL = process.env.MONGO_URI_TEST 
 const HASH_STRING = process.env.HASH_STRING || '';
 
 export const config = {

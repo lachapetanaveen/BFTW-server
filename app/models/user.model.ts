@@ -25,12 +25,11 @@ mongoose.model<IAddress>('address', addressScheam);
 
 const UserSchema: Schema = new Schema<any>(
     {
-        first_name: {
+        full_name: {
             type: String,
             trim: true,
-            required: [true, 'First Name is required']
+            required: [true, 'Name is required']
         },
-        last_name: { type: String, trim: true },
         email: {
             type: String,
             required: true,
@@ -44,23 +43,26 @@ const UserSchema: Schema = new Schema<any>(
         user_type: {
             type: String,
             default: 'NU',
-            enum: ['A', 'NU'],
+            enum: ['A', 'NU'],  // NU= New user/ user , A= Admin
             required: [true, 'User type is required']
         },
 
         is_deleted: { type: Boolean, default: false },
-        last_logged_in: { type: Date, default: null },
         avatar: { type: String, default: '' },
-        status: { type: String, default: 'A' },
         mobile_no: {
             type: Number,
             cast: (v: any) => {
                 return typeof v !== 'number' && !isNaN(v) ? Number(v) : v;
             }
         },
-        company_name: { type: String },
+        // company_name: { type: String },
+        // address: { type: addressScheam },
+        interest: {
+            type: String,
+            enum: ['baptism', 'counsling', 'cwc', 'ms'] // cwc= Connect with Church, ms= More Scripture
+        },
         created_by: { type: Schema.Types.ObjectId, ref: 'user' },
-        address: { type: addressScheam },
+
     },
     { timestamps: true }
 );
