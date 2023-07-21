@@ -4,7 +4,7 @@
   "description": "Bibles for the World",
   "main": "server.js",
   "scripts": {
-    "start": "NODE_ENV=DEV nodemon --exec ts-node server.ts",
+    "start": "NODE_ENV=DEV node dist/server.js",
     "build": "rm -rf dist && npx tsc",
     "start:dev": "npx nodemon",
     "dev": "NODE_ENV=dev concurrently \"npx tsc -w --project ./tsconfig.json\" \"nodemon ./dist/server.js\"",
