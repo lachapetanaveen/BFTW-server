@@ -3,6 +3,7 @@ import { authRoute } from './auth.routes';
 import checkAuth from '../middleware/checkAuth';
 import { userRoutes } from './user.routes';
 import path from 'path';
+import { resourseRoutes } from './resource.routes';
 const routes = express.Router();
 
 routes.get('/', (req: Request, res: Response) => {
@@ -15,5 +16,6 @@ routes.use('/auth', authRoute);
 // User Routes
 routes.use('/users', checkAuth, userRoutes);
 
+routes.use('/resourse', resourseRoutes)
 
 export = routes;

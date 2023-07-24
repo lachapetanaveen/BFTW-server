@@ -24,7 +24,7 @@
     "@types/cors": "^2.8.13",
     "@types/jsonwebtoken": "^9.0.2",
     "@types/mongoose": "^5.11.97",
-    "aws-sdk": "^2.1398.0",
+    "aws-sdk": "^2.1420.0",
     "bcrypt": "^5.1.0",
     "chalk": "^4.1.0",
     "cors": "^2.8.5",
