@@ -32,20 +32,12 @@ const getUsers = async (req: Request, res: Response) => {
 
 const getSingleUser = async (req: Request, res: Response) => {
     try {
-        const users = await User.findById(req.params.id)
-            .populate({
-                path: 'address',
-                populate: {
-                    path: 'state',
-                    model: 'state'
-                }
-            })
-            .populate('created_by');
-
-        if (!users) {
+        const user = await User.findById(req.params.id);
+        if (!user) {
             return not_found(res, { msg: 'User not found' });
         }
-        server_ok(res, users);
+
+        server_ok(res, user);
     } catch (error) {
         Logger.error(error);
         server_error(res, error);

@@ -49,7 +49,7 @@ const UserSchema: Schema = new Schema<any>(
 
         is_deleted: { type: Boolean, default: false },
         avatar: { type: String, default: '' },
-        mobile_no: {
+        mobile: {
             type: Number,
             cast: (v: any) => {
                 return typeof v !== 'number' && !isNaN(v) ? Number(v) : v;
@@ -57,9 +57,14 @@ const UserSchema: Schema = new Schema<any>(
         },
         // company_name: { type: String },
         // address: { type: addressScheam },
-        interest: {
-            type: String,
-            enum: ['baptism', 'counsling', 'cwc', 'ms'] // cwc= Connect with Church, ms= More Scripture
+        interests: {
+            type: [
+                {
+                    type: String,
+                    enum: ['baptism', 'counseling', 'cwc', 'ms'] // cwc = Connect with Church, ms = More Scripture
+                }
+            ],
+            default: [] // Optional: Set a default empty array if needed
         },
         created_by: { type: Schema.Types.ObjectId, ref: 'user' },
 
