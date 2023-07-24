@@ -24,7 +24,12 @@ interface IUser {
   updatedAt?: string;
 }
 
+interface IUpload {
+  filename: string,
+  url: string,
+  interests?: String[],
+  filetype: String
+}
 
 
-
-export { IUser, IAddress };
+export { IUser, IAddress, IUpload };

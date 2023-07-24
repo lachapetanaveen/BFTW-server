@@ -36,5 +36,10 @@ export const config = {
   },
   hash: {
     HASH_STRING
+  },
+  aws: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    bucketname: process.env.AWS_BUCKET
   }
 };
