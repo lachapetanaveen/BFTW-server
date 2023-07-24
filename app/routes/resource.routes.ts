@@ -8,6 +8,6 @@ const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-routes.post('/resourceupload', checkAuth, upload.array('files'), uploadFile);
+routes.post('/resourceupload', upload.array('files'), uploadFile);
 
 export const resourseRoutes = routes;
