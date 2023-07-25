@@ -14,7 +14,7 @@ const s3 = new S3Client({
 
 const s3Storage = multerS3({
     s3: s3, // Use the S3 client created in awsConfig.js
-    bucket: 'resources', // Replace with your desired bucket name
+    bucket: 'bftw-resources', // Replace with your desired bucket name
     metadata: (req, file, cb) => {
         cb(null, { fieldname: file.fieldname });
     },
