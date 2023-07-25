@@ -13,23 +13,24 @@ const s3 = new S3Client({
 });
 
 const s3Storage = multerS3({
-    s3: s3,
-    bucket: 'resources',
+    s3: s3, // Use the S3 client created in awsConfig.js
+    bucket: 'resources', // Replace with your desired bucket name
     metadata: (req, file, cb) => {
         cb(null, { fieldname: file.fieldname });
     },
     key: (req, file, cb) => {
         const mimeType = file.mimetype.split('/')[0];
-        console.log(file, 'filetype');
         const fileName = Date.now() + '-' + Math.round(Math.random() * 1e9) + path.extname(file.originalname);
         cb(null, `/${mimeType}/${fileName}`);
-    }
+    },
 });
+
 
 
 
 const upload = multer({
+
     storage: s3Storage
 });
 
-export const FileService = { upload };
+export { upload }
