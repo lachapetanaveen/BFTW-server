@@ -4,6 +4,8 @@ import checkAuth from '../middleware/checkAuth';
 import { userRoutes } from './user.routes';
 import path from 'path';
 import { resourseRoutes } from './resource.routes';
+import { messageRoute } from './messageRoutes';
+import { chatRoute } from './chatRoutes';
 const routes = express.Router();
 
 routes.get('/', (req: Request, res: Response) => {
@@ -17,5 +19,7 @@ routes.use('/auth', authRoute);
 routes.use('/users', checkAuth, userRoutes);
 
 routes.use('/resourse', resourseRoutes)
+routes.use('/chat', chatRoute)
+routes.use('/message', messageRoute)
 
 export = routes;

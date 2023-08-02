@@ -1,8 +1,8 @@
 import mongoose, { Schema } from 'mongoose';
-import { IAddress, IUser } from '../interfaces/user.interface';
+import { IAddress, IUser } from '../interfaces/bftw.interface';
 import { config } from '../../config/config';
 import jwt from 'jsonwebtoken';
-
+import bcrypt from 'bcryptjs';
 // Email Validation
 const validateEmail = function (email: any) {
     const re = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/;
@@ -72,6 +72,16 @@ const UserSchema: Schema = new Schema<any>(
     { timestamps: true }
 );
 
+
+
+// UserSchema.pre("save", async function (next) {
+//     if (!this.isModified) {
+//         next();
+//     }
+//     const salt = await bcrypt.genSalt(10);
+//     this.password_hash = await bcrypt.hash(this.password_hash, salt);
+// });
+
 // Generate User token for authentication
 UserSchema.methods.isSignedToken = function () {
     return jwt.sign({ id: this._id }, config.jwt.JWT_SECRET, {
@@ -79,5 +89,5 @@ UserSchema.methods.isSignedToken = function () {
     });
 };
 
-export default mongoose.model<IUser>('user', UserSchema);
+export default mongoose.model<IUser>('User', UserSchema);
 export { addressScheam };

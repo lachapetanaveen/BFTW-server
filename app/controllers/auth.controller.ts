@@ -7,7 +7,7 @@ import { decryptPassword, encryptPassword } from '../../library/password.process
 import jwt from 'jsonwebtoken';
 import { config } from '../../config/config';
 import { decodeToken, generateTokens } from '../middleware/tokens';
-import { IUser } from '../interfaces/user.interface';
+import { IUser } from '../interfaces/bftw.interface';
 
 
 // Register User details to db as a new Account
@@ -27,9 +27,6 @@ const signup = async (req: Request, res: Response) => {
         }
 
         const savedUser = await UserServies.saveUser(req.body);
-
-        server_ok(res, { msg: 'User saved successfully', user: savedUser });
-
         const userDetails: any = await User.findOne({ email });
         const token = await generateTokens(
             {
@@ -39,7 +36,7 @@ const signup = async (req: Request, res: Response) => {
             },
             config.hash.HASH_STRING
         );
-
+        server_ok(res, { msg: 'User saved successfully', user: savedUser, token });
     } catch (error: any) {
         Logger.error(error);
 

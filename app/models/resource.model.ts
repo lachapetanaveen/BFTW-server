@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { IUpload } from '../interfaces/user.interface';
+import { IUpload } from '../interfaces/bftw.interface';
 
 const uploadSchema = new mongoose.Schema({
     filename: { type: String, required: true },

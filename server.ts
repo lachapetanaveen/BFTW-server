@@ -6,13 +6,16 @@ import path from 'path';
 import http from 'http';
 import morgan from 'morgan';
 import routes from './app/routes/index';
-// import * as loadDoc from './api-doc/swagger';
 import db from './db';
-
-
+import { Server as SocketServer, Socket } from 'socket.io';
+import { RoboMaker } from 'aws-sdk';
 dotenv.config();
 
-const app: Express = express();
+const port: number = Number(process.env.PORT) || 5000;
+const app = express();
+const server = http.createServer(app);
+
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -23,22 +26,12 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Welcome to Bibles for the World  API');
+  res.send('Welcome to Bibles for the World API');
 });
 
 // routes
-
 app.use('/api/v1', routes);
 
-// // eslint-disable-next-line no-void
-// void (async function () {
-//   const { swaggerServe, swaggerSetup } = await loadDoc.get_data();
-//   app.use('/api-docs', swaggerServe, swaggerSetup);
-// })();
-
-// Port and connection setup
-const port = process.env.PORT || 5000;
-const server = new http.Server(app);
 server.listen(port, () => {
   // console.info(`⚡️ Server is running at http://localhost:${port} on process no ${process.pid} `);
   Logger.info(`⚡️ Server is running at http://localhost:${port} on process no ${process.pid} `);
@@ -57,4 +50,48 @@ process.on('SIGTERM', async () => {
     await db.connection.close();
   });
   process.exit(0);
+});
+
+/* Set up Socket.io with the http server   */
+const io: SocketServer = new SocketServer(server, {
+  pingTimeout: 60000,
+  cors: {
+    origin: ["http://localhost:3000", "http://localhost:19006"],
+    // credentials: true,
+  },
+});
+io.on("connection", (socket) => {
+  console.log("Connected to socket.io");
+  socket.on("setup", (userData) => {
+    socket.join(userData._id);
+    socket.emit("connected");
+  });
+
+  socket.on("join chat", (room) => {
+    let newRoom: any = room && room._id ? room._id : room;
+    socket.join(newRoom)
+  });
+
+  socket.on("typing", (room) => socket.in(room).emit("typing"));
+  socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
+
+  socket.on("new message", (newMessageRecieved) => {
+    // console.log("newMessageRecieved ", newMessageRecieved);
+
+    let chat = newMessageRecieved.chat;
+    if (!chat.users) {
+      if (chat._id == newMessageRecieved.sender._id) return;
+      socket.in(chat._id).emit("message recieved", newMessageRecieved);
+    } else {
+      chat.users.forEach((user: any) => {
+        if (user._id == newMessageRecieved.sender._id) return;
+        socket.in(user._id).emit("message recieved", newMessageRecieved);
+      });
+    }
+  });
+
+  socket.off("setup", () => {
+    console.log("USER DISCONNECTED");
+    // socket.leave(userData._id);
+  });
 });

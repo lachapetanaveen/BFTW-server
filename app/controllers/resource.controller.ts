@@ -1,7 +1,7 @@
 // const AWS = require('aws-sdk');
 import Upload from '../models/resource.model';
 import { config } from '../../config/config';
-import { upload } from '../middleware/fileupload'
+import { upload } from '../middleware/fileUploader'
 
 const uploadFile = async (req: any, res: any) => {
     try {

@@ -1,3 +1,6 @@
+import { Document } from 'mongoose';
+
+
 interface IAddress {
   address1?: string;
   address2?: string;

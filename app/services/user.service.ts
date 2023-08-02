@@ -1,7 +1,7 @@
 import User from '../models/user.model';
 import { encryptPassword } from '../../library/password.process';
 import Logger from '../../library/logger';
-import { IUser } from '../interfaces/user.interface';
+import { IUser } from '../interfaces/bftw.interface';
 
 
 const saveUser = (body: any) => {
@@ -10,7 +10,6 @@ const saveUser = (body: any) => {
             const randomPassword = (Math.random() + 1).toString(36).substring(5);
             const hashedPassword = await encryptPassword(body.password_hash || randomPassword);
             body.password_hash = hashedPassword;
-            console.log('req.body', body)
             const user = new User(body);
 
             const savedUser: IUser = await user.save();
