@@ -1,15 +1,16 @@
 // const AWS = require('aws-sdk');
 import Upload from '../models/resource.model';
-import { config } from '../../config/config';
-import { upload } from '../middleware/fileUploader'
 
 const uploadFile = async (req: any, res: any) => {
     try {
         if (!req.files || req.files.length === 0) {
             return res.status(400).json({ error: 'No files provided' });
         }
+        console.log(req.files, 'req.files');
 
-        const fileUrls = await Promise.all(req.files.map((file: any) => upload.array(file)));
+        const fileUrls = await Promise.all(req.files.map((file: any) => file.location));
+        console.log(fileUrls, 'fileUrls');
+
         const newFileUploads = req.files.map((file: any, index: any) => ({
             filename: file.originalname,
             url: fileUrls[index],

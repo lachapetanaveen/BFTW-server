@@ -1,12 +1,13 @@
 import express from 'express';
 import checkAuth from '../middleware/checkAuth';
 import { uploadFile } from '../controllers/resource.controller';
+import { upload } from '../middleware/fileUploader';
 const routes = express.Router();
 
-const multer = require('multer');
+// const multer = require('multer');
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+// const storage = multer.memoryStorage();
+// const upload = multer({ storage: storage });
 
 routes.post('/resourceupload', upload.array('files'), uploadFile);
 
