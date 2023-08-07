@@ -6,16 +6,17 @@ import { fromCognitoIdentityPool } from '@aws-sdk/credential-providers';
 
 const s3 = new S3Client({
     region: 'us-west-2',
+    // endpoint: 'https://s3-us-west-2.amazonaws.com',
     credentials: fromCognitoIdentityPool({
         clientConfig: { region: 'us-west-2' },
         identityPoolId: 'us-west-2:c6436823-bfa5-4599-9277-ba58761ae075',
     })
 });
-
 const s3Storage = multerS3({
     s3: s3, // Use the S3 client created in awsConfig.js
     bucket: 'bftw-resources', // Replace with your desired bucket name
     metadata: (req, file, cb) => {
+        console.log(file, 'file');
         cb(null, { fieldname: file.fieldname });
     },
     key: (req, file, cb) => {
