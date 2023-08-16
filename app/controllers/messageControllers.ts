@@ -26,7 +26,8 @@ const allMessages = asyncHandler(async (req: Request, res: Response): Promise<vo
 //@access          Protected
 const sendMessage = asyncHandler(async (req: Request, res: Response): Promise<void> => {
     const { content, chatId } = req.body;
-
+    console.log('content', content)
+    console.log('chatId', chatId)
     if (!content || !chatId) {
         console.log("Invalid data passed into request");
         res.sendStatus(400);

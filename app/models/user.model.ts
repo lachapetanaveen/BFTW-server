@@ -55,8 +55,7 @@ const UserSchema: Schema = new Schema<any>(
                 return typeof v !== 'number' && !isNaN(v) ? Number(v) : v;
             }
         },
-        // company_name: { type: String },
-        // address: { type: addressScheam },
+
         interests: {
             type: [
                 {
@@ -74,13 +73,7 @@ const UserSchema: Schema = new Schema<any>(
 
 
 
-// UserSchema.pre("save", async function (next) {
-//     if (!this.isModified) {
-//         next();
-//     }
-//     const salt = await bcrypt.genSalt(10);
-//     this.password_hash = await bcrypt.hash(this.password_hash, salt);
-// });
+
 
 // Generate User token for authentication
 UserSchema.methods.isSignedToken = function () {

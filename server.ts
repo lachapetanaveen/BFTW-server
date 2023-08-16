@@ -1,14 +1,13 @@
-import express, { Express, Request, Response } from 'express';
-import dotenv from 'dotenv';
-import Logger from './library/logger';
 import cors from 'cors';
-import path from 'path';
+import dotenv from 'dotenv';
+import express, { Request, Response } from 'express';
 import http from 'http';
 import morgan from 'morgan';
+import path from 'path';
+import { Server as SocketServer } from 'socket.io';
 import routes from './app/routes/index';
 import db from './db';
-import { Server as SocketServer, Socket } from 'socket.io';
-import { RoboMaker } from 'aws-sdk';
+import Logger from './library/logger';
 dotenv.config();
 
 const port: number = Number(process.env.PORT) || 5000;
@@ -19,7 +18,7 @@ const server = http.createServer(app);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: '*' }));
 app.use(morgan('dev'));
 
 app.set('view engine', 'ejs');
@@ -56,8 +55,7 @@ process.on('SIGTERM', async () => {
 const io: SocketServer = new SocketServer(server, {
   pingTimeout: 60000,
   cors: {
-    origin: ["http://localhost:3000", "http://localhost:19006"],
-    // credentials: true,
+    origin: "*",
   },
 });
 io.on("connection", (socket) => {

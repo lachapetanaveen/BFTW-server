@@ -54,22 +54,30 @@ const signup = async (req: Request, res: Response) => {
 const login = async (req: Request, res: Response) => {
     try {
         const { email, password_hash } = req.body;
-        if (!email && !password_hash) return bad_request(res, { msg: 'All field required' });
-        if (!email) return bad_request(res, { msg: 'Email is required' });
-        if (!password_hash) return bad_request(res, { msg: 'Password is required' });
 
-        const user = await User.findOne<IUser>({ email }).select('+password_hash');
-        if (!user) return bad_request(res, { msg: 'Invalid Email or Password' });
-
-        if (user.is_deleted === true) {
-            return forbidden(res, { msg: 'Please contact to admin' });
+        if (!email || !password_hash) {
+            return bad_request(res, { msg: 'Email and password are required' });
         }
 
-        const status = await decryptPassword(password_hash, user.password_hash);
-        if (status === false) return bad_request(res, { msg: 'Invalid Email or Password' });
+        const user = await User.findOne<IUser>({ email }).select('+password_hash');
 
-        const token = await generateTokens({ id: user._id, email: user.email });
-        server_ok(res, {
+        if (!user || user.is_deleted) {
+            return forbidden(res, { msg: 'Invalid Email or Password' });
+        }
+
+        const isPasswordValid = await decryptPassword(password_hash, user.password_hash);
+        if (!isPasswordValid) {
+            return forbidden(res, { msg: 'Invalid Email or Password' });
+        }
+
+        const tokenPayload = {
+            id: user._id,
+            email: user.email,
+        };
+
+        const token = await generateTokens(tokenPayload);
+
+        const responsePayload = {
             msg: 'User authenticated',
             token,
             _id: user._id,
@@ -77,14 +85,18 @@ const login = async (req: Request, res: Response) => {
             last_name: user.last_name,
             email: user.email,
             role: user.user_type,
-            company_name: user.company_name ? user.company_name : null
-        });
+            company_name: user.company_name || null,
+        };
+
         await UserServies.updatelastLogin(user._id as any);
+
+        server_ok(res, responsePayload);
     } catch (error) {
         Logger.error(error);
         server_error(res, error);
     }
 };
+
 const logout = async (req: Request, res: Response) => {
     try {
         const { authorization } = req.headers;
