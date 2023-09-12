@@ -26,7 +26,12 @@ interface IUser {
   createdAt?: string;
   updatedAt?: string;
 }
-
+interface IEmailSignup {
+  _id?: string;
+  name: string;
+  email: string;
+  address: string;
+}
 interface IUpload {
   filename: string,
   url: string,
@@ -35,4 +40,4 @@ interface IUpload {
 }
 
 
-export { IUser, IAddress, IUpload };
+export { IUser, IAddress, IUpload, IEmailSignup };
