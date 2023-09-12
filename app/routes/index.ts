@@ -6,6 +6,7 @@ import path from 'path';
 import { resourseRoutes } from './resource.routes';
 import { messageRoute } from './messageRoutes';
 import { chatRoute } from './chatRoutes';
+import { nglemailsignuproute } from './nglemailsignup.routes';
 const routes = express.Router();
 
 routes.get('/', (req: Request, res: Response) => {
@@ -21,5 +22,5 @@ routes.use('/users', checkAuth, userRoutes);
 routes.use('/resourse', resourseRoutes)
 routes.use('/chat', chatRoute)
 routes.use('/message', messageRoute)
-
+routes.use('/nglemail', nglemailsignuproute)
 export = routes;
