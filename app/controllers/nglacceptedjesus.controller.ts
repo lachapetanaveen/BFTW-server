@@ -1,21 +1,21 @@
 import { Request, Response } from 'express';
 import { bad_request, conflict, forbidden, not_found, server_error, server_ok } from '../../library/server-respone';
 import Logger from '../../library/logger';
-import { UserServies } from '../services/user.service'
-import nglemailsignup from '../models/nglemailsignup.model'
-import { emailSignupServices } from '../services/nglemailsignup.service';
+import { acceptedjesusServices } from '../services/nglacceptedjesus.service';
 
 
-const emailsignup = async (req: Request, res: Response) => {
+
+const acceptedjesus = async (req: Request, res: Response) => {
     try {
         const { name, email, address } = req.body;
         Logger.info(req.body);
-        if (!email) {
-            return bad_request(res, { msg: 'Email is Required' });
+        if (!name) {
+            return bad_request(res, { msg: 'Name is Required' });
+        } else if (!address) {
+            return bad_request(res, { msg: 'Address is Required' });
         }
 
-        const savedUser = await emailSignupServices.emailsignup(req.body);
-        const userDetails: any = await nglemailsignup.findOne({ email });
+        const savedUser = await acceptedjesusServices.Acceptedjesus(req.body);
 
         server_ok(res, { msg: 'User saved successfully', user: savedUser });
     } catch (error: any) {
@@ -33,6 +33,6 @@ const emailsignup = async (req: Request, res: Response) => {
 };
 
 export {
-    emailsignup,
+    acceptedjesus,
 
 };
