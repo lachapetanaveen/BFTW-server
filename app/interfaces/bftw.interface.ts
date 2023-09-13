@@ -32,6 +32,30 @@ interface IEmailSignup {
   email: string;
   address: string;
 }
+interface IGospelofjohnbooklet {
+  _id?: string;
+  name: string;
+  email: string;
+  address: string;
+}
+interface IGospelofjohndownload {
+  _id?: string;
+  name: string;
+  email: string;
+  address: string;
+}
+interface IAcceptedJesus {
+  _id?: string;
+  name: string;
+  email: string;
+  address: string;
+}
+interface IWantLearnJesus {
+  _id?: string;
+  say_himself: string;
+  say_others: string;
+  say_believe: string;
+}
 interface IUpload {
   filename: string,
   url: string,
@@ -40,4 +64,4 @@ interface IUpload {
 }
 
 
-export { IUser, IAddress, IUpload, IEmailSignup };
+export { IUser, IAddress, IUpload, IEmailSignup, IGospelofjohnbooklet, IGospelofjohndownload, IAcceptedJesus, IWantLearnJesus };
